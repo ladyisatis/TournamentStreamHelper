@@ -13,7 +13,7 @@ if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
 
 app = FastAPI()
 app.socketio = socketio.SocketIO(app=app)
-templates = Jinja2Templates(directory="./frontend")
+templates = Jinja2Templates(directory='./dist')
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request) -> templates.TemplateResponse:
@@ -26,4 +26,4 @@ async def index(request: Request) -> templates.TemplateResponse:
         }
     )
 
-app.mount("/assets", StaticFiles(directory="./frontend/assets"), name="assets")
+app.mount("/assets", StaticFiles(directory="./dist/assets"), name="assets")
