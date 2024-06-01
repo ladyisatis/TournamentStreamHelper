@@ -18,10 +18,14 @@
   "dependencies": {
     "@fontsource/material-icons": "^5.0.18",
     "@fontsource/roboto": "^5.0.13",
+    "@mui/material": "^5.15.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-intl": "^6.6.8",
     "react-router-dom": "^6.23.1",
-    "sort-by": "^1.2.0"
+    "react-use-websocket": "^4.8.1",
+    "sort-by": "^1.2.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

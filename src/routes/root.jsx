@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import './App.css';
+import '../css/root.css';
 
-function App() {
+export default function Root() {
   const [count, setCount] = useState(0)
 
   return (
@@ -12,7 +12,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Edit <code>src/Root.jsx</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">
@@ -21,5 +21,3 @@ function App() {
     </>
   )
 }
-
-export default App

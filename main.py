@@ -1,7 +1,8 @@
 import sys
 import multiprocessing
 import uvicorn
-from server import config
+from socketio import ASGIApp
+from server import app, config
 from loguru import logger
 
 if __name__ == '__main__':
@@ -9,7 +10,8 @@ if __name__ == '__main__':
     multiprocessing.freeze_support()
 
     try:
-        uvicorn.run("server:app", host=config.host(), 
+        logger.info("Server is starting")
+        uvicorn.run(ASGIApp(app.socketio, app), host=config.host(), 
             port=config.port(), reload=config.reload())
         sys.exit(0)
     except:
