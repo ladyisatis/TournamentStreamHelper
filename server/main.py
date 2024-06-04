@@ -9,6 +9,7 @@ from fastapi.responses import HTMLResponse, ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from socketio import AsyncServer
+from loguru import logger
 
 from server import settings
 from server.api import router_v1
@@ -22,12 +23,15 @@ program_context = {
 
 async def on_startup(app: FastAPI):
     global program_context
+
+    logger.debug("starting...")
     async with aiofiles.open('pyproject.toml', mode='r', encoding='utf-8') as f:
         # pyproject.toml likely included in production builds as it makes
         # updating the version easier, less redundant, etc.
         program_context = tomllib.loads(await f.read())["tool"]["poetry"]
 
 async def on_shutdown(app: FastAPI):
+    logger.debug("shutting down...")
     await settings.save()
 
 @asynccontextmanager

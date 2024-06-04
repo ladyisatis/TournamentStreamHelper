@@ -7,28 +7,31 @@ from hypercorn.asyncio import serve
 from socketio import ASGIApp
 from loguru import logger
 
-from server import app, settings
+from server import settings
+from server.main import app
 
 async def main():
     logger.info("Server is starting")
 
-    try:
-        await settings.load()
-        combined_app = ASGIApp(
+    await settings.load()
+
+    config = Config()
+    config.log.access_logger = logger.bind(name="access_logger")
+    config.log.error_logger = logger.bind(name="error_logger")
+
+    host = await settings.get("server.host")
+    port = await settings.get("server.port")
+    config.bind = [f"{host}:{port}"]
+
+    await serve(
+        app=ASGIApp(
             app.socketio,
             app
-        )
-        
-        config = Config()
-        host = settings.get("server.host")
-        port = settings.get("server.port")
-        config.bind = [f"{host}:{port}"]
-
-        await serve(combined_app, config)
-        return 0
-    except:
-        logger.exception("Exiting application due to exception")
-        return 1
+        ), 
+        config=config, 
+        mode='asgi'
+    )
+    return 0
 
 if __name__ == '__main__':
     # Pyinstaller fix
@@ -38,4 +41,13 @@ if __name__ == '__main__':
         sys.stderr = open('./logs/tsh_error.txt', 'w', encoding='utf-8')
         sys.stdout = open('./logs/tsh_info.txt', 'w', encoding='utf-8')
 
-    sys.exit(asyncio.run(main()))
+    ret = 0
+    try:
+        ret = asyncio.run(main())
+    except asyncio.exceptions.CancelledError:
+        pass
+    except:
+        logger.exception("Exiting application due to exception")
+        sys.exit(1)
+    finally:
+        sys.exit(ret)
