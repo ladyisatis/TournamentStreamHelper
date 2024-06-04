@@ -12,8 +12,9 @@ It's recommended to install Node.js (for NPM) and Python 3, then run `npm run se
 
 The following dependencies are planned to be used in Python:
 
+- asyncio
 - [FastAPI](https://fastapi.tiangolo.com/) for server-side rendering and REST APIs
-- [uvicorn](https://www.uvicorn.org/) as the ASGI server
+- [Hypercorn](https://pgjones.gitlab.io/hypercorn/how_to_guides/api_usage.html) as the ASGI server
 - [httpx](https://www.python-httpx.org/async/) for asyncio web requests
 - [loguru](https://github.com/Delgan/loguru) for logging
 - [socketio](https://python-socketio.readthedocs.io/en/stable/server.html#uvicorn-daphne-and-other-asgi-servers) for communication to/from React
