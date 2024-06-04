@@ -16,7 +16,7 @@ async def on_socketio_event(sid, data, event_id, func):
         content["uuid"] = uuid
 
     if content != None:
-        app.socketio.emit(event_id, content, json=True, to=sid)
+        await app.socketio.emit(event_id, content, json=True, to=sid)
 
 def method(*args, **kwargs):
     def wrapper(func):
