@@ -2,7 +2,7 @@
 
 A rewrite of joaorb64/TournamentStreamHelper into React and FastAPI (via Python with asyncio). May change a _lot_ with things getting started.
 
-It's recommended to install Node.js, Yarn, and Python 3, and then run `npm run setup` (`npm run setup:win` on Windows) to install Python dependencies and `yarn install` to install JavaScript dependencies.
+It's recommended to install Node.js (for NPM) and Python 3, then run `npm run setup` (`npm run setup:win` on Windows) to install Python dependencies and `npm install` to install JavaScript dependencies.
 
 `npm run dev` (`npm run dev:win` on Windows) to run the developer environment with hot-module reloading.
 
