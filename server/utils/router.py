@@ -2,9 +2,21 @@ import orjson
 from functools import partial
 from server import app
 
-async def on_socketio_event(sid, data, func):
+async def on_socketio_event(sid, data, event_id, func):
     parsed = orjson.loads(data)
-    await func(**parsed, session_id=sid)
+
+    uuid = ""
+    if isinstance(parsed, dict) and parsed.has_key("uuid"):
+        uuid = parsed.get("uuid")
+        del parsed["uuid"]
+
+    content = await func(**parsed, session_id=sid)
+
+    if isinstance(content, dict) and uuid != "":
+        content["uuid"] = uuid
+
+    if content != None:
+        app.socketio.emit(event_id, content, json=True, to=sid)
 
 def method(*args, **kwargs):
     def wrapper(func):
@@ -32,6 +44,7 @@ def method(*args, **kwargs):
                 namespace=namespace
             )(partial(
                 on_socketio_event,
+                event_id=id,
                 func=func
             ))
 
