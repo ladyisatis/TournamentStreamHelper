@@ -5,7 +5,7 @@ import tomllib
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from socketio import AsyncServer
@@ -45,6 +45,11 @@ app.mount("/assets", StaticFiles(directory="./dist/assets"), name="assets")
 
 # /api/v1/* | api_v1_*
 app.include_router(router_v1)
+
+# tsh_info.json
+@app.get("/tsh_info.json", response_class=ORJSONResponse)
+async def tsh_info() -> ORJSONResponse:
+    return ORJSONResponse([program_context])
 
 # root (/index.html etc)
 @app.get("/", response_class=HTMLResponse)
