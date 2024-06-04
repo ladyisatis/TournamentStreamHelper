@@ -7,11 +7,26 @@ from hypercorn.asyncio import serve
 from socketio import ASGIApp
 from loguru import logger
 
-from server import settings
-from server.main import app
+from server import settings, server
 
 async def main():
-    logger.info("Server is starting")
+    logger.add(
+        "./logs/tsh_info.txt",
+        format="[{time:YYYY-MM-DD HH:mm:ss}] - {level} - {file}:{function}:{line} | {message}",
+        encoding="utf-8",
+        level="INFO",
+        rotation="20 MB"
+    )
+
+    logger.add(
+        "./logs/tsh_error.txt",
+        format="[{time:YYYY-MM-DD HH:mm:ss}] - {level} - {file}:{function}:{line} | {message}",
+        encoding="utf-8",
+        level="ERROR",
+        rotation="20 MB"
+    )
+
+    logger.warning("Server is starting")
 
     await settings.load()
 
@@ -25,8 +40,8 @@ async def main():
 
     await serve(
         app=ASGIApp(
-            app.socketio,
-            app
+            server.app.socketio,
+            server.app
         ), 
         config=config, 
         mode='asgi'
