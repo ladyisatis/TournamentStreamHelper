@@ -4,11 +4,11 @@
   "version": "6.0.0",
   "type": "module",
   "scripts": {
-    "setup": "python -m venv venv && . venv/bin/activate && pip install poetry && poetry install && deactivate",
+    "setup": "python3 -m venv venv && . venv/bin/activate && pip install poetry && poetry install && deactivate",
     "setup:win": "python -m venv venv && .\\venv\\Scripts\\activate && pip install poetry && poetry install && .\\venv\\Scripts\\deactivate",
     "dev": "concurrently -n vite,server \"npm run vite\" \"npm run server\"",
     "dev:win": "concurrently -n vite,server \"npm run vite\" \"npm run server:win\"",
-    "server": ". venv/bin/activate && venv/bin/python main.py && deactivate",
+    "server": ". venv/bin/activate && venv/bin/python3 main.py && deactivate",
     "server:win": ".\\venv\\Scripts\\activate && python main.py && .\\venv\\Scripts\\deactivate",
     "build": "vite build",
     "vite": "vite",
@@ -24,7 +24,6 @@
     "react-intl": "^6.6.8",
     "react-router-dom": "^6.23.1",
     "react-use-websocket": "^4.8.1",
-    "sort-by": "^1.2.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
